@@ -1,3 +1,70 @@
+# Education Management System
+
+This repository contains an Education Management System generated using Crudly AI. It demonstrates how education-related operations can be structured into a complete system using automated CRUD generation.
+
+## Overview
+
+The system is designed to manage academic workflows such as student records, teacher management, attendance tracking, exams, results, and fee management through multiple interconnected modules. Each module follows standard CRUD operations, ensuring a structured and scalable system.
+
+## Tech Stack
+
+- Laravel (Backend)
+- React (Frontend)
+- MySQL (Database)
+
+## Modules
+
+- Students – Manage student records  
+- Teachers – Manage teacher information  
+- Classes – Manage class details  
+- Subjects – Manage subject information  
+- Attendance – Manage attendance records  
+- Exams – Manage examination details  
+- Results – Manage student results and performance  
+- Fees – Manage fee records and payments  
+
+## How This Was Generated
+
+This project was fully generated using Crudly AI-based CRUD generator.
+
+**Prompt Used:**
+Create an Education Management System with complete CRUD functionality.
+
+Modules:
+- Students
+- Teachers
+- Classes
+- Subjects
+- Attendance
+- Exams
+- Results
+- Fees
+
+Requirements:
+- Define proper relationships between modules
+- Generate full CRUD operations
+- Ensure the system is structured, scalable, and easy to extend
+
+## About Crudly
+
+Crudly is an AI-powered system that generates structured applications automatically. It helps developers eliminate repetitive coding by generating:
+
+- Data models  
+- Relationships  
+- CRUD operations  
+- Base project structure  
+
+## Why Use Crudly
+
+- Faster development  
+- Structured code generation  
+- Reduced manual effort  
+- Easy scalability  
+
+## Setup Guide
+
+Below are the steps to run this project locally.
+
 # Crudly Generated Code Setup
 
 This README provides setup instructions for the generated Laravel application with CRUD functionality.
@@ -110,3 +177,4 @@ Ensure you're using Node.js 18+ for React 19 compatibility.
 ## Support
 
 For issues related to the generated CRUD functionality, please refer to the Crudly documentation or contact support.
+Email: info@crudly.ai
