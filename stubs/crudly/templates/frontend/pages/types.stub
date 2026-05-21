@@ -1,0 +1,32 @@
+import { BaseModel } from '@/types/crud';
+
+export interface {{model_name}} extends BaseModel {
+{{interface_fields}}
+    created_at_formatted: string;
+}
+
+export interface {{model_name}}FormData {
+{{form_data_fields}}
+}
+
+export interface {{model_name}}IndexProps {
+{{index_props}}
+}
+
+export interface {{model_name}}CreateModalProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+}
+
+export interface {{model_name}}EditModalProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    {{singular_name}}: {{model_name}} | null;
+}
+
+export interface {{model_name}}ViewModalProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    {{singular_name}}: {{model_name}} | null;
+    onEdit?: ({{singular_name}}: {{model_name}}) => void;
+}

@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+{{relationship_imports}}
+class {{model_name}} extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+{{fillable_fields}}
+        'created_by',
+    ];
+
+    protected $casts = [
+{{cast_fields}}
+    ];
+
+{{relationship_methods}}
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+}

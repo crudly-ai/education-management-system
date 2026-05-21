@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Result extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'student_id',
+        'exam_id',
+        'marks',
+        'status',
+
+        'created_by',
+    ];
+
+    protected $casts = [
+        'student_id' => 'integer',
+        'exam_id' => 'integer',
+        'marks' => 'integer',
+        'status' => 'string',
+
+    ];
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function exam(): BelongsTo
+    {
+        return $this->belongsTo(Exam::class);
+    }
+
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+}

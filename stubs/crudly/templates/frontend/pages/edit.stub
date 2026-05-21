@@ -1,0 +1,96 @@
+import { Button } from '@/components/ui/form/button';
+{{imports}}
+import { Label } from '@/components/ui/form/label';
+import {
+    Modal,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalTitle,
+} from '@/components/ui/overlay/modal';
+import { useForm } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { useTranslations } from '@/hooks/use-translations';
+import { useToast } from '@/hooks/use-toast';
+import { Toaster } from '@/components/ui/feedback/toaster';
+import { {{model_name}}EditModalProps } from './types';
+
+export function {{model_name}}EditModal({ open, onOpenChange, {{singular_name}}, ...props }: {{model_name}}EditModalProps) {
+    const { t } = useTranslations();
+    const { toast } = useToast();
+{{relationship_multi_states}}
+    
+    // Extract relationship data from props
+    const relationshipData = Object.keys(props).reduce((acc, key) => {
+        if (Array.isArray(props[key]) && props[key].length > 0 && props[key][0]?.id) {
+            acc[key] = props[key];
+        }
+        return acc;
+    }, {} as any);
+    const { data, setData, put, processing, errors, reset } = useForm({
+{{form_data}}
+    });
+
+    useEffect(() => {
+        if ({{singular_name}} && open) {
+            setData({
+{{set_form_data}}
+            });
+{{relationship_multi_initial_load}}
+        } else if (!open) {
+            reset();
+        }
+    }, [{{singular_name}}, open]);
+
+{{relationship_multi_effects}}
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if ({{singular_name}}) {
+            put(`/{{route_name}}/${{{singular_name}}.id}`, {
+                onSuccess: () => {
+                    toast.success(t('{{model_name}} updated successfully'));
+                    reset();
+                    onOpenChange(false);
+                    window.dispatchEvent(new CustomEvent('refreshDataTable'));
+                },
+                onError: () => {
+                    toast.error(t('Failed to update {{singular_name}}'), { description: t('Please check the form and try again') });
+                },
+            });
+        }
+    };
+
+    const handleClose = () => {
+        reset();
+        onOpenChange(false);
+    };
+
+    if (!{{singular_name}}) return null;
+
+    return (
+        <Modal open={open} onOpenChange={handleClose}>
+            <ModalContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+                <form onSubmit={handleSubmit}>
+                    <ModalHeader>
+                        <ModalTitle>{t('Edit {{model_name}}')}</ModalTitle>
+                    </ModalHeader>
+                    
+                    <div className="space-y-6 py-4">
+{{form_fields}}
+                    </div>
+
+                    <ModalFooter>
+                        <Button type="button" variant="outline" onClick={handleClose}>
+                            {t('Cancel')}
+                        </Button>
+                        <Button type="submit" disabled={processing}>
+                            {t('Update {{model_name}}')}
+                        </Button>
+                    </ModalFooter>
+                </form>
+            </ModalContent>
+            <Toaster />
+        </Modal>
+    );
+}

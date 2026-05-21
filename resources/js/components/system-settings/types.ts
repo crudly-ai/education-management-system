@@ -1,0 +1,83 @@
+export interface SystemSettings {
+    name: string;
+    date_format: string;
+    time_format: string;
+    currency_symbol: string;
+    currency_position: string;
+    decimal_separator: string;
+    thousand_separator: string;
+    mail_driver: string;
+    mail_host: string;
+    mail_port: string;
+    mail_username: string;
+    mail_password: string;
+    mail_encryption: string;
+    mail_from_address: string;
+    mail_from_name: string;
+    storage_driver: string;
+    storage_allowed_extensions: string[];
+    max_upload_size: string;
+    aws_access_key: string;
+    aws_secret_key: string;
+    aws_region: string;
+    aws_bucket: string;
+    aws_url: string;
+    aws_endpoint: string;
+    wasabi_access_key: string;
+    wasabi_secret_key: string;
+    wasabi_region: string;
+    wasabi_bucket: string;
+    wasabi_url: string;
+    wasabi_root: string;
+    theme_color: string;
+    theme_mode: string;
+    layout_direction: string;
+    sidebar_style: string;
+    sidebar_variant: string;
+    footer_text: string;
+    dark_logo: string;
+    light_logo: string;
+    favicon: string;
+}
+
+export const defaultSettings: SystemSettings = {
+    name: 'Laravel Starter Kit',
+    date_format: 'Y-m-d',
+    time_format: '12',
+    currency_symbol: '$',
+    currency_position: 'before',
+    decimal_separator: '.',
+    thousand_separator: ',',
+    mail_driver: 'smtp',
+    mail_host: '',
+    mail_port: '587',
+    mail_username: '',
+    mail_password: '',
+    mail_encryption: 'tls',
+    mail_from_address: '',
+    mail_from_name: '',
+    storage_driver: 'local',
+    storage_allowed_extensions: [],
+    max_upload_size: '10',
+    aws_access_key: '',
+    aws_secret_key: '',
+    aws_region: '',
+    aws_bucket: '',
+    aws_url: '',
+    aws_endpoint: '',
+    wasabi_access_key: '',
+    wasabi_secret_key: '',
+    wasabi_region: '',
+    wasabi_bucket: '',
+    wasabi_url: '',
+    wasabi_root: '',
+    theme_color: 'black',
+    theme_mode: 'light',
+    layout_direction: 'ltr',
+    sidebar_style: 'plain',
+    sidebar_variant: 'inset',
+    footer_text: '© 2024 Crudly. All rights reserved.',
+    dark_logo: '',
+    light_logo: '',
+    favicon: '',
+};

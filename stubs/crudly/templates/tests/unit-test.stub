@@ -1,0 +1,46 @@
+<?php
+
+namespace Tests\Unit;
+
+use App\Models\{{model_name}};
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class {{model_name}}Test extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_{{variable_name}}_can_be_created()
+    {
+        $user = User::factory()->create();
+        
+        ${{variable_name}} = {{model_name}}::create([
+{{test_data}}        ]);
+
+        $this->assertDatabaseHas('{{table_name}}', [
+{{test_assertions}}        ]);
+    }
+
+    public function test_{{variable_name}}_has_fillable_attributes()
+    {
+        ${{variable_name}} = new {{model_name}}();
+        
+{{fillable_tests}}    }
+
+    public function test_{{variable_name}}_has_proper_casts()
+    {
+        ${{variable_name}} = new {{model_name}}();
+        $casts = ${{variable_name}}->getCasts();
+        
+{{cast_tests}}    }
+{{relationship_tests}}
+    public function test_{{variable_name}}_belongs_to_creator()
+    {
+        $user = User::factory()->create();
+        ${{variable_name}} = {{model_name}}::factory()->create(['created_by' => $user->id]);
+        
+        $this->assertInstanceOf(User::class, ${{variable_name}}->creator);
+        $this->assertEquals($user->id, ${{variable_name}}->creator->id);
+    }
+{{attribute_tests}}{{factory_tests}}}

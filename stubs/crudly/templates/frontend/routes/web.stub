@@ -1,0 +1,2 @@
+    Route::resource('{{route_name}}', \App\Http\Controllers\{{controller_name}}::class);
+{{relationship_multi_routes}}

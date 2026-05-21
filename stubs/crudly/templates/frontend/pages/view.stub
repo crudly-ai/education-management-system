@@ -1,0 +1,63 @@
+import { Button } from '@/components/ui/form/button';
+import {
+    Modal,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalTitle,
+} from '@/components/ui/overlay/modal';
+import { useTranslations } from '@/hooks/use-translations';
+import { useFormatters } from '@/utils/formatters';
+import { {{model_name}}ViewModalProps } from './types';
+
+export function {{model_name}}ViewModal({ open, onOpenChange, {{singular_name}}, onEdit }: {{model_name}}ViewModalProps) {
+    const { t } = useTranslations();
+    const { formatDateTime } = useFormatters();
+    if (!{{singular_name}}) return null;
+
+    return (
+        <Modal open={open} onOpenChange={onOpenChange}>
+            <ModalContent className="sm:max-w-[800px]">
+                <ModalHeader>
+                    <ModalTitle>{t('{{model_name}} Details')}</ModalTitle>
+                </ModalHeader>
+                
+                <div className="space-y-6 py-4">
+                    <div className="space-y-4">
+{{view_fields}}
+                        <div>
+                            <h3 className="text-sm font-medium text-gray-500">{t('Created At')}</h3>
+                            <p className="mt-1 text-sm text-gray-900">
+                                {formatDateTime({{singular_name}}.created_at)}
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h3 className="text-sm font-medium text-gray-500">{t('Updated At')}</h3>
+                            <p className="mt-1 text-sm text-gray-900">
+                                {formatDateTime({{singular_name}}.updated_at)}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <ModalFooter>
+                    {onEdit && (
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                onEdit({{singular_name}});
+                                onOpenChange(false);
+                            }}
+                        >
+                            {t('Edit')}
+                        </Button>
+                    )}
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                        {t('Close')}
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    );
+}

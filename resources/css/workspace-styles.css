@@ -1,0 +1,307 @@
+.workspace-page {
+    --first-font: "Inter", sans-serif;
+    --second-font: "Geist Mono", monospace;
+    --primary-color: #F53003;
+    --secondary-color: #0A1A2F;
+    --accent-color: #006F53;
+    --text-color: #7C7C7C;
+    --gray-color: #f7f7f7;
+    --border-color: #e5e5e5;
+    --black: #141414;
+    --light-dark: #31312e;
+    --white: #ffffff;
+    --h1: normal 500 60px/1.2 var(--first-font);
+    --h2: normal 500 36px/44px var(--first-font);
+    --h3: normal 500 24px/34px var(--first-font);
+    --h4: normal 500 18px/28px var(--first-font);
+    --common-text: normal 400 16px/24px var(--first-font);
+    font: var(--common-text);
+    color: var(--text-color);
+    background-color: var(--white);
+}
+
+.workspace-page h1,
+.workspace-page .h1 {
+    font: var(--h1) !important;
+}
+
+.workspace-page h2,
+.workspace-page .h2 {
+    font: var(--h2) !important;
+}
+
+.workspace-page h3,
+.workspace-page .h3 {
+    font: var(--h3) !important;
+}
+
+.workspace-page h4,
+.workspace-page .h4 {
+    font: var(--h4) !important;
+}
+
+.workspace-page h1,
+.workspace-page h2,
+.workspace-page h3,
+.workspace-page h4,
+.workspace-page h5,
+.workspace-page h6 {
+    color: var(--black);
+}
+
+.workspace-page .form-control {
+    width: 100%;
+    color: var(--black);
+    border: 1px solid #F2F2F2;
+    padding: 12px 15px;
+    outline: none;
+}
+
+.workspace-page .form-control::placeholder {
+    color: #A3A3A3;
+}
+
+.workspace-page .btn {
+   line-height: 1;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    gap: 10px;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 14px 28px;
+    text-align: center;
+    border: 1px solid var(--black);
+    font-weight: 500;
+    transition: all ease-in-out 300ms;
+}
+
+.workspace-page button{
+    cursor: pointer;
+}
+
+.workspace-page .crudly-icon svg {
+    animation: iconRotate 5s linear infinite;
+}
+
+.workspace-page .box-icon svg {
+    animation: boxFloat 4s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes boxFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-4px) rotate(2deg);
+    }
+    66% {
+        transform: translateY(2px) rotate(-2deg);
+    }
+}
+
+@keyframes iconRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Workspace specific styles */
+.workspace-page .text-primary {
+    color: var(--primary-color) !important;
+}
+
+.workspace-page .bg-gray {
+    background-color: var(--gray-color) !important;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Project dropdown styles */
+.workspace-page .project-dropdown .project-menu {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.workspace-page .project-menu-item:hover {
+    background: transparent;
+}
+.workspace-page .project-menu-item.delete-btn{
+    color: #ff0000;
+}
+/* Template cards hover effect */
+.workspace-page .prompt-template-wrp a:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Project cards styling */
+.workspace-page .created-projects .border {
+    border-color: #FFD6A7;
+}
+
+.workspace-page .created-projects .group:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.workspace-page .created-projects .group:hover .box-icon svg {
+    color: var(--primary-color) !important;
+}
+
+/* Fix for gray background color */
+.workspace-page .bg-gray {
+    background-color: #f7f7f7 !important;
+}
+
+.workspace-page .bg-gray-50 {
+    background-color: #f7f7f7 !important;
+}
+
+.workspace-page .bg-gray-100 {
+    background-color: #f7f7f7 !important;
+}
+
+/* Ensure proper spacing and typography */
+.workspace-page .section-title h1 {
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--black);
+}
+
+.workspace-page .section-title p {
+    color: var(--text-color);
+}
+
+/* Button styling consistency */
+.workspace-page button[class*="text-[#F53003]"] {
+    background-color: #FFF7ED;
+    border-color: #FFD6A7;
+    color: #F53003;
+}
+
+.workspace-page button[class*="text-[#F53003]"]:hover {
+    box-shadow: 0 4px 6px -1px rgba(245, 48, 3, 0.1);
+}
+
+/* Crudly icon shadow effect */
+.workspace-page .crudly-icon::before {
+    content: '';
+    position: absolute;
+    left: 60%;
+    top: 28%;
+    width: 250px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(245, 48, 3, 0.2);
+    filter: blur(60px);
+    z-index: 1;
+}
+
+.workspace-page .menu-col .btn{
+    line-height: 1.25rem;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    padding-inline-end: 0.75rem;
+    padding-inline-start: 24px;
+}
+
+.workspace-page .menu-col button svg circle,
+.workspace-page .menu-col button svg path{
+    stroke: var(--black);
+}
+
+.workspace-page .share-title,
+.workspace-page .react-joyride__tooltip h1{
+    font-size: 18px !important;
+    line-height: 1 !important;
+}
+
+.workspace-page .project-title{
+    font-size: 16px !important;
+    line-height: 1 !important;
+}
+
+.workspace-page .menu-col .exit-btn svg circle,
+.workspace-page .menu-col .exit-btn svg path{
+    stroke: var(--white);
+}
+
+@media (max-width: 1199px) {
+    .workspace-page {
+        --h1: normal 500 52px/1.2 var(--first-font);
+    }
+}
+
+@media (max-width: 1024px) {
+    .workspace-page .crudly-icon::before {
+        width: 150px;
+        height: 50px;
+        filter: blur(50px);
+    }
+}
+
+@media (max-width: 1023px) {
+    .workspace-page {
+        --h1: normal 500 46px/1.2 var(--first-font);
+        --common-text: normal 400 14px/1.4 var(--first-font);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .workspace-page {
+        --h1: normal 500 40px/1.2 var(--first-font);
+    }
+
+    .workspace-page .btn {
+        padding: 11px 15px;
+    }
+
+    .workspace-page .form-control {
+        padding: 8px 15px;
+    }
+
+    /* prompt interface page css */
+    .workspace-page .site-header .prompt-btn-wrp .btn {
+        background-color: transparent !important;
+        border: none !important;
+    }
+}
+
+@media (max-width: 639px) {
+    .workspace-page {
+        --h1: normal 500 36px/1.2 var(--first-font);
+        --h2: normal 500 24px/34px var(--first-font);
+    }
+    
+    .workspace-page .menu-col .btn::before,
+    .workspace-page .menu-col .exit-btn span{
+        display: none;
+    }
+    
+    .workspace-page .menu-col .exit-btn,
+    .workspace-page .menu-col .btn{
+        border-radius: 50%;
+        padding: 6px;
+    }
+    
+    .workspace-page .quick-card a{
+        padding: 10px;
+    }
+}

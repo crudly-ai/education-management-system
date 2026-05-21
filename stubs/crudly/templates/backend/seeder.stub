@@ -1,0 +1,7 @@
+        // {{model_name}} permissions
+        'manage_all_{{permission_name}}',
+        'manage_own_{{permission_name}}',
+        'view_{{permission_name}}',
+        'create_{{permission_name}}', 
+        'edit_{{permission_name}}',
+        'delete_{{permission_name}}',

@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\{{model_name}};
+{{relationship_imports}}
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Yajra\DataTables\Facades\DataTables;
+
+class {{controller_name}} extends Controller
+{
+    public function index(Request $request)
+    {
+        if (!auth()->user()->can('view_{{permission_name}}')) {
+            abort(403, 'You do not have permission to view {{plural_name}}.');
+        }
+        
+        if (($request->wantsJson() || $request->ajax()) && !$request->header('X-Inertia')) {
+            ${{variable_name}} = {{model_name}}::select('{{table_name}}.*'){{relationship_with}};
+            
+            // Apply ownership filter
+            if (auth()->user()->can('manage_all_{{permission_name}}')) {
+                // User can see all {{plural_name}}
+            } elseif (auth()->user()->can('manage_own_{{permission_name}}')) {
+                ${{variable_name}}->where('created_by', auth()->id());
+            }
+            
+{{filters}}
+            
+            return DataTables::of(${{variable_name}})
+                ->addColumn('created_at_formatted', function (${{singular_name}}) {
+                    return ${{singular_name}}->created_at->format('Y-m-d H:i:s');
+                })
+{{relationship_columns}}
+{{filter_columns}}
+                ->escapeColumns([])
+                ->make(true);
+        }
+
+{{filter_options}}
+
+        return Inertia::render('{{route_name}}/index', [
+{{filter_options_data}}
+{{relationship_data}}
+            'currencySettings' => [
+                'currency_symbol' => \App\Models\SystemSetting::get('currency_symbol', '$'),
+                'currency_position' => \App\Models\SystemSetting::get('currency_position', 'before'),
+                'decimal_separator' => \App\Models\SystemSetting::get('decimal_separator', '.'),
+                'thousand_separator' => \App\Models\SystemSetting::get('thousand_separator', ','),
+            ],
+        ]);
+    }
+
+    public function show({{model_name}} ${{singular_name}})
+    {
+        if (!auth()->user()->can('view_{{permission_name}}')) {
+            abort(403, 'You do not have permission to view this {{singular_name}}.');
+        }
+
+        ${{singular_name}}->load([{{relationship_load_array}}]);
+        return response()->json(${{singular_name}});
+    }
+
+    public function store(Request $request)
+    {
+        if (!auth()->user()->can('create_{{permission_name}}')) {
+            abort(403, 'You do not have permission to create {{plural_name}}.');
+        }
+        
+        $request->validate([
+{{validation_rules}}
+        ]);
+
+        {{model_name}}::create(array_merge($request->all(), ['created_by' => auth()->id()]));
+
+        return redirect()->back()->with('success', '{{model_name}} created successfully.');
+    }
+
+    public function update(Request $request, {{model_name}} ${{singular_name}})
+    {
+        if (!auth()->user()->can('edit_{{permission_name}}')) {
+            abort(403, 'You do not have permission to edit {{plural_name}}.');
+        }
+        
+        // Check ownership for manage_own permission
+        if (!auth()->user()->can('manage_all_{{permission_name}}') && 
+            auth()->user()->can('manage_own_{{permission_name}}') && 
+            ${{singular_name}}->created_by !== auth()->id()) {
+            abort(403, 'You can only edit {{plural_name}} you created.');
+        }
+        
+        $request->validate([
+{{update_validation_rules}}
+        ]);
+
+        ${{singular_name}}->update($request->all());
+
+        return redirect()->back()->with('success', '{{model_name}} updated successfully.');
+    }
+
+    public function destroy({{model_name}} ${{singular_name}})
+    {
+        if (!auth()->user()->can('delete_{{permission_name}}')) {
+            abort(403, 'You do not have permission to delete {{plural_name}}.');
+        }
+        
+        // Check ownership for manage_own permission
+        if (!auth()->user()->can('manage_all_{{permission_name}}') && 
+            auth()->user()->can('manage_own_{{permission_name}}') && 
+            ${{singular_name}}->created_by !== auth()->id()) {
+            abort(403, 'You can only delete {{plural_name}} you created.');
+        }
+        
+        ${{singular_name}}->delete();
+
+        return redirect()->back()->with('success', '{{model_name}} deleted successfully.');
+    }
+{{relationship_multi_methods}}
+}

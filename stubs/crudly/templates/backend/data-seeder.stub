@@ -1,0 +1,20 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\{{model_name}};
+use Illuminate\Database\Seeder;
+
+class {{model_name}}Seeder extends Seeder
+{
+    public function run(): void
+    {
+        ${{variable_name}} = [
+{{sample_data}}
+        ];
+        
+        foreach (${{variable_name}} as ${{singular_name}}) {
+            {{model_name}}::firstOrCreate(['{{first_field}}' => ${{singular_name}}['{{first_field}}']], array_merge(${{singular_name}}, ['created_by' => 1]));
+        }
+    }
+}

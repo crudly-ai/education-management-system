@@ -1,0 +1,192 @@
+import { YajraDataTable } from '@/components/datatable';
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { createBreadcrumbs } from '@/layouts/app/breadcrumbs';
+import { Head, router } from '@inertiajs/react';
+import { useFormatters } from '@/utils/formatters';
+import { {{model_name}}CreateModal } from './create';
+import { {{model_name}}EditModal } from './edit';
+import { {{model_name}}ViewModal } from './view';
+import { {{model_name}}IndexProps } from './types';
+import { usePermissions } from '@/hooks/use-permissions';
+import { useTranslations } from '@/hooks/use-translations';
+import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/form/button';
+import { Toaster } from '@/components/ui/feedback/toaster';
+import { Card, CardContent } from '@/components/ui/layout/card';
+{{imports}}
+import { Plus, Eye, Edit, Trash2, Calendar, {{icon_name}} } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
+
+export default function Index(props: {{model_name}}IndexProps) {
+    const { hasPermission } = usePermissions();
+    const { t } = useTranslations();
+    const { toast } = useToast();
+    const { formatDate } = useFormatters();
+    
+    // Set currency settings globally
+    React.useEffect(() => {
+        if (props.currencySettings) {
+            window.currencySettings = props.currencySettings;
+        }
+    }, [props.currencySettings]);
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [viewModalOpen, setViewModalOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selected{{model_name}}, setSelected{{model_name}}] = useState<any>(null);
+    const tableRef = useRef<any>(null);
+{{relationship_multi_filter_states}}
+
+{{filter_options_data}}
+    useEffect(() => {
+        const handleRefresh = () => {
+            if (tableRef.current) {
+                tableRef.current.refresh();
+            }
+        };
+
+        window.addEventListener('refreshDataTable', handleRefresh);
+        return () => window.removeEventListener('refreshDataTable', handleRefresh);
+    }, []);
+
+{{relationship_multi_filter_effects}}
+
+    const columns = [
+{{columns}}
+    ];
+
+    const filters = [
+{{filters}}
+    ];
+
+    const customActions = (
+        <>
+            {hasPermission('create_{{permission_name}}') && (
+                <Button onClick={() => setCreateModalOpen(true)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t('Create {{model_name}}')}
+                </Button>
+            )}
+        </>
+    );
+
+    const customRowActions = (item: any) => (
+        <>
+            {hasPermission('view_{{permission_name}}') && (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                        setSelected{{model_name}}(item);
+                        setViewModalOpen(true);
+                    }}
+                >
+                    <Eye className="h-4 w-4" />
+                </Button>
+            )}
+            {hasPermission('edit_{{permission_name}}') && (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                        setSelected{{model_name}}(item);
+                        setEditModalOpen(true);
+                    }}
+                >
+                    <Edit className="h-4 w-4" />
+                </Button>
+            )}
+            {hasPermission('delete_{{permission_name}}') && (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                        setSelected{{model_name}}(item);
+                        setDeleteDialogOpen(true);
+                    }}
+                >
+                    <Trash2 className="h-4 w-4" />
+                </Button>
+            )}
+        </>
+    );
+
+    const renderGridItem = ({{singular_name}}: any) => (
+{{grid_item}}
+    );
+
+    const breadcrumbs = createBreadcrumbs('{{route_name}}');
+
+    return (
+        <AuthenticatedLayout breadcrumbs={breadcrumbs}>
+            <Head title={t('{{plural_name_title}}')} />
+            <div className="p-6">
+                <YajraDataTable
+                    ref={tableRef}
+                    url="/{{route_name}}"
+                    columns={columns}
+                    title={t('{{plural_name_title}}')}
+                    customActions={customActions}
+                    customRowActions={customRowActions}
+                    filters={filters}
+                    gridViewEnabled={true}
+                    renderGridItem={renderGridItem}
+                    emptyStateIcon={<{{icon_name}} className="h-8 w-8 text-gray-400" />}
+                />
+            
+                {hasPermission('create_{{permission_name}}') && (
+                    <{{model_name}}CreateModal
+                        open={createModalOpen}
+                        onOpenChange={setCreateModalOpen}
+                        {...props}
+                    />
+                )}
+                
+                {hasPermission('edit_{{permission_name}}') && (
+                    <{{model_name}}EditModal
+                        open={editModalOpen}
+                        onOpenChange={setEditModalOpen}
+                        {{singular_name}}={selected{{model_name}}}
+                        {...props}
+                    />
+                )}
+                
+                {hasPermission('view_{{permission_name}}') && (
+                    <{{model_name}}ViewModal
+                        open={viewModalOpen}
+                        onOpenChange={setViewModalOpen}
+                        {{singular_name}}={selected{{model_name}}}
+                        onEdit={hasPermission('edit_{{permission_name}}') ? ({{singular_name}}) => {
+                            setSelected{{model_name}}({{singular_name}});
+                            setViewModalOpen(false);
+                            setEditModalOpen(true);
+                        } : undefined}
+                    />
+                )}
+                
+                <ConfirmationDialog
+                    open={deleteDialogOpen}
+                    onOpenChange={setDeleteDialogOpen}
+                    title={t('Delete {{model_name}}')}
+                    description={`Are you sure you want to delete ${selected{{model_name}}?.name}? This action cannot be undone.`}
+                    confirmText={t('Delete')}
+                    variant="destructive"
+                    onConfirm={() => {
+                        router.delete(`/{{route_name}}/${selected{{model_name}}.id}`, {
+                            onSuccess: () => {
+                                toast.success(t('{{model_name}} deleted successfully'));
+                                window.dispatchEvent(new CustomEvent('refreshDataTable'));
+                                setDeleteDialogOpen(false);
+                            },
+                            onError: () => {
+                                toast.error(t('Failed to delete {{singular_name}}'), { description: t('Please try again') });
+                            },
+                        });
+                    }}
+                />
+                <Toaster />
+            </div>
+        </AuthenticatedLayout>
+    );
+}
